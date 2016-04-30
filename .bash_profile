@@ -1,6 +1,7 @@
 export PATH=$PATH:/Users/davisli/Library/Android/sdk/platform-tools/
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
 
+export PATH=${PATH}:/usr/local/mysql/bin
 
 function setjdk() {
   if [ $# -ne 0 ]; then

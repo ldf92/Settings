@@ -5,14 +5,59 @@
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+    cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "\"$PWD/$BASE\"" "\"$PWD/$LOCAL\""  "\"$PWD/$REMOTE\"" "\"$PWD/$MERGED\""
 	trustExitCode = true
 [user]
 	name = Dengfeng(Davis) Li
 	email = davis.ldf92@gmail.com
+[merge]
+    keepBackup = false
+    tool = p4merge
+[mergetool "p4merge"]
+    cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "\"$PWD/$BASE\"" "\"$PWD/$REMOTE\"" "\"$PWD/$LOCAL\"" "\"$PWD/$MERGED\""
+    keepTemporaries = false
+    trustExitCode = false
+    keepBackup = false
+[diff]
+    tool = p4merge
+[difftool]
+    prompt = false
+[difftool "p4merge"]
+    cmd = /Applications/p4merge.app/Contents/Resources/launchp4merge "\"$REMOTE\"" "\"$LOCAL\""
 [alias]
+    aa = add -A
+
+    #Only update tracked files
+    au = add -u
+
     b = branch
+
     s = status
-    lg1 = log --pretty=oneline --abbrev-commit
-    lg = !"git lg2-specific --all"
+
+    #Check Out XXX
+    co = checkout
+
+    #CheckOut new Branch XXX
+    cob = checkout -b
+
+    #Commit with message
+    cm = commit -m
+
+    #Fix last Commit message
+    fx = commit --amend -m
+
+    #Edit git Config file
+    ec = config --global -e
+
+    #Save Point
+    save = !git add -A && git commit -m 'SAVEPOINT'
+
+    #Undo
+    undo = reset HEAD~1 --mixed
+
+    lg = log --all --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+    l = log --pretty=oneline --abbrev-commit --decorate
+    
+    lg2 = !"git lg2-specific --all"
     lg2-specific = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
